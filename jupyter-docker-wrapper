@@ -26,4 +26,4 @@ exec docker run \
   --name $JUPYTER_CONTAINER_NAME \
   -p $NOMAD_PORT_ui:8888 \
   -v $JUPYTER_NOTEBOOK_MOUNT:/notebooks \
-  jupyter/notebook
+  jupyter/datascience-notebook
