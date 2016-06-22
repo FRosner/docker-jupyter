@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ -z "$JUPYTER_CONTAINER_NAME" ]; then
+  echo 'Please set $JUPYTER_CONTAINER_NAME'
+  exit 1
+fi
+
+if [ -z "$NOMAD_PORT_ui" ]; then
+  echo 'Please set $NOMAD_PORT_ui'
+  exit 1
+fi
+
+if [ -z "$JUPYTER_NOTEBOOK_MOUNT" ]; then
+  echo 'Please set $JUPYTER_NOTEBOOK_MOUNT'
+  exit 1
+fi
+
+echo "Stopping container $JUPYTER_CONTAINER_NAME"
+docker stop $JUPYTER_CONTAINER_NAME
+
+echo "Removing container $JUPYTER_CONTAINER_NAME"
+docker rm $JUPYTER_CONTAINER_NAME
+
+echo "Starting container $JUPYTER_CONTAINER_NAME"
+exec docker run \
+  --name $JUPYTER_CONTAINER_NAME \
+  -p $NOMAD_PORT_ui:8888 \
+  -v $JUPYTER_NOTEBOOK_MOUNT:/notebooks \
+  jupyter/notebook
